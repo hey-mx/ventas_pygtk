@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.24"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="fecha_filtro_window">
+    <property name="width_request">450</property>
+    <property name="height_request">400</property>
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="urgency_hint">True</property>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="width_request">100</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Fecha Inicio:</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">12</property>
+            <property name="y">22</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label2">
+            <property name="width_request">100</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Fecha Final:</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">12</property>
+            <property name="y">218</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCalendar" id="fecha_inicio">
+            <property name="width_request">200</property>
+            <property name="height_request">175</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="year">2014</property>
+            <property name="month">1</property>
+            <property name="day">15</property>
+          </object>
+          <packing>
+            <property name="x">113</property>
+            <property name="y">29</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCalendar" id="fecha_fin">
+            <property name="width_request">200</property>
+            <property name="height_request">175</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="year">2014</property>
+            <property name="month">1</property>
+            <property name="day">15</property>
+          </object>
+          <packing>
+            <property name="x">113</property>
+            <property name="y">221</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="aceptar_btn">
+            <property name="label">gtk-ok</property>
+            <property name="width_request">100</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_action_appearance">False</property>
+            <property name="use_stock">True</property>
+            <signal name="clicked" handler="on_aceptar_btn_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">337</property>
+            <property name="y">57</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="cancelar_btn">
+            <property name="label">gtk-cancel</property>
+            <property name="width_request">100</property>
+            <property name="height_request">40</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_action_appearance">False</property>
+            <property name="use_stock">True</property>
+            <signal name="clicked" handler="on_cancelar_btn_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">337</property>
+            <property name="y">121</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

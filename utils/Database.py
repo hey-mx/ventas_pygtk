@@ -59,10 +59,22 @@ class DataModel:
     def get_records(self, *args, **kwargs):
         query = 'SELECT * FROM %s' % self.table_name
         values = None
+        order = ''
+        limit = ''
+        if 'limit' in kwargs:
+            limit = kwargs['limit']
+            del kwargs['limit']
+        if 'order' in kwargs:
+            order = kwargs['order']
+            del kwargs['order']
         if len(kwargs) > 0:
             fields = [x  for x in kwargs.keys()]
             values = [y for y in kwargs.values()]
             query += ' WHERE ' + ' = ? AND '.join(fields) + ' = ?'
+            if order != '':
+                query += ' ORDER BY ' + order
+            if limit != '':
+                query += ' LIMIT BY ' + limit
         rows = self.get_records_from_query(query, values)
         return rows
     
@@ -91,15 +103,22 @@ class DataModel:
             cursor = self.db.cursor()
             query = "INSERT INTO %s(%s) values(%s)" % (self.table_name, ', '.join(fields), ', '.join(values_count))
             cursor.execute(query, values)
+            last_id = cursor.lastrowid
             self.db.commit()
             cursor.close()
+            return last_id
 
-    def update_record(self, fields_and_values, record_id):
+    def update_record(self, fields_and_values, record_id, upsert=False):
         if len(fields_and_values) > 0:
             fields = [x for x in fields_and_values.keys()]
             values = [y.decode('utf-8') for y in fields_and_values.values()]
             query = "UPDATE %s SET %s WHERE id = %d" % (self.table_name, ' = ?, '.join(fields) + ' = ?', 
                 record_id)
+            if upsert:
+                record = self.get_record(record_id)
+                if not record:
+                    self.create_record(fields_and_values)
+                    return
             cursor = self.db.cursor()
             cursor.execute(query, values)
             self.db.commit()

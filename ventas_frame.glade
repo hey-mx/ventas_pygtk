@@ -291,26 +291,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label4">
-            <property name="width_request">100</property>
-            <property name="height_request">30</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="xalign">0.86000001430511475</property>
-            <property name="label" translatable="yes">IVA 16%</property>
-            <property name="justify">right</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="x">440</property>
-            <property name="y">347</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkCheckButton" id="iva_check">
-            <property name="width_request">30</property>
+            <property name="label" translatable="yes">IVA 16%</property>
+            <property name="width_request">91</property>
             <property name="height_request">30</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -321,7 +304,7 @@
             <signal name="toggled" handler="on_iva_check_toggled" swapped="no"/>
           </object>
           <packing>
-            <property name="x">586</property>
+            <property name="x">340</property>
             <property name="y">346</property>
           </packing>
         </child>
@@ -338,7 +321,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">440</property>
+            <property name="x">340</property>
             <property name="y">380</property>
           </packing>
         </child>
@@ -355,7 +338,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">547</property>
+            <property name="x">447</property>
             <property name="y">380</property>
           </packing>
         </child>
@@ -372,7 +355,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">440</property>
+            <property name="x">340</property>
             <property name="y">415</property>
           </packing>
         </child>
@@ -390,8 +373,53 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">547</property>
+            <property name="x">447</property>
             <property name="y">415</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="iva_label">
+            <property name="width_request">150</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0.10000000149011612</property>
+            <property name="label" translatable="yes">0.00</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">447</property>
+            <property name="y">346</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label4">
+            <property name="width_request">79</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Fecha</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">272</property>
+            <property name="y">53</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="fecha_hora_label">
+            <property name="width_request">135</property>
+            <property name="height_request">30</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="x">337</property>
+            <property name="y">53</property>
           </packing>
         </child>
       </object>

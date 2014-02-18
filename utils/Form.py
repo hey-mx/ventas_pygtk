@@ -18,16 +18,16 @@ class FormBuilder:
             for field in self.__fields:
                 self.load_widget_value(field, row[field])
     
-    def save_entity(self):
+    def save_entity(self, upsert=False, custom_id=False):
         id = self.__get_id()
         values = {}
         for field in self.__fields:
-            if field != 'id':
+            if field != 'id' or custom_id == True:
                 values[field] = self.get_widget_value(field)
         if id == 0:
             self.model.create_record(values)
         else:
-            self.model.update_record(values, id)
+            self.model.update_record(values, id, upsert)
         self.clear_form()
 
     def delete_entity(self):
@@ -58,6 +58,9 @@ class FormBuilder:
                 count += 1
         if isinstance(widget, gtk.CheckButton):
             widget.set_active(True if value else False)
+        if isinstance(widget, gtk.Calendar):
+            widget.select_month(value[1], value[0])
+            widget.select_day(value[2])
             
     def get_widget_value(self, widget_name):
         value = None
@@ -71,6 +74,8 @@ class FormBuilder:
                 value = str(model[tree_iter][0])
         if isinstance(widget, gtk.CheckButton):
             value = widget.get_active()
+        if isinstance(widget, gtk.Calendar):
+            value = widget.get_date()
         return value
 
     def get_model(self):

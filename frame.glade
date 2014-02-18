@@ -2,6 +2,43 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkMenu" id="reporte_menu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="ventas_reporte_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip_text" translatable="yes">Reporte de Ventas por fecha</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Ventas</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_ventas_reporte_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="productos_reporte_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip_text" translatable="yes">Reporte de Productos</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Productos</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_productos_reporte_item_activate" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="productos_agotados_reporte_item">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip_text" translatable="yes">Reporte de Productos Agotados</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Productos Agotados</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_productos_agotados_reporte_item_activate" swapped="no"/>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="width_request">800</property>
     <property name="height_request">600</property>
@@ -54,7 +91,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="reportes_button">
+              <object class="GtkMenuToolButton" id="reportes_button">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="use_action_appearance">False</property>
@@ -62,7 +99,6 @@
                 <property name="label" translatable="yes">Reportes</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">applications-office</property>
-                <signal name="clicked" handler="on_reportes_button_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -70,15 +106,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="usuarios_button">
+              <object class="GtkToolButton" id="configuracion_button">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="is_important">True</property>
-                <property name="label" translatable="yes">Usuarios</property>
+                <property name="label" translatable="yes">Configuración</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">contact-new</property>
-                <signal name="clicked" handler="on_usuarios_button_clicked" swapped="no"/>
+                <property name="icon_name">preferences-system</property>
+                <signal name="clicked" handler="on_configuracion_button_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
