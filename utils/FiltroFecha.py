@@ -1,7 +1,6 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 from utils.Form import FormBuilder
 from datetime import datetime
 from dateutil.relativedelta import relativedelta

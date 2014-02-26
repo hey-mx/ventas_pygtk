@@ -47,6 +47,7 @@
     <property name="title" translatable="yes">Control de Productos V 1.0</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="icon">System-Calc-icon.ico</property>
     <signal name="destroy" handler="on_window1_destroy" swapped="no"/>
     <child>
       <object class="GtkVBox" id="vbox1">
@@ -64,9 +65,8 @@
                 <property name="can_focus">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="is_important">True</property>
-                <property name="label" translatable="yes">Pr_oductos</property>
+                <property name="label" translatable="yes">Productos</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">applications-utilities</property>
                 <signal name="clicked" handler="on_productos_button_clicked" swapped="no"/>
               </object>
               <packing>
@@ -82,7 +82,6 @@
                 <property name="is_important">True</property>
                 <property name="label" translatable="yes">Prov_eedores</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">preferences-desktop-theme</property>
                 <signal name="clicked" handler="on_proveedores_button_clicked" swapped="no"/>
               </object>
               <packing>
@@ -98,7 +97,6 @@
                 <property name="is_important">True</property>
                 <property name="label" translatable="yes">Reportes</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">applications-office</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -113,7 +111,6 @@
                 <property name="is_important">True</property>
                 <property name="label" translatable="yes">Configuración</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">preferences-system</property>
                 <signal name="clicked" handler="on_configuracion_button_clicked" swapped="no"/>
               </object>
               <packing>
@@ -129,7 +126,6 @@
                 <property name="is_important">True</property>
                 <property name="label" translatable="yes">Ventas</property>
                 <property name="use_underline">True</property>
-                <property name="icon_name">accessories-calculator</property>
                 <signal name="clicked" handler="on_ventas_button_clicked" swapped="no"/>
               </object>
               <packing>

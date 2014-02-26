@@ -2,7 +2,6 @@ import sys
 import pygtk
 pygtk.require("2.0")
 import gtk
-import gtk.glade
 from utils.Form import FormBuilder
 from utils.Database import DataModel
 from utils.Config import get_pdf_reader

@@ -65,22 +65,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="eliminar_button">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="use_action_appearance">False</property>
-                <property name="is_important">True</property>
-                <property name="label" translatable="yes">Eliminar</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">edit-delete</property>
-                <signal name="clicked" handler="on_eliminar_button_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkToolButton" id="cerrar_button">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>

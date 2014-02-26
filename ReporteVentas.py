@@ -41,9 +41,9 @@ class Ventas:
             for venta in ventas:
                 c.drawString(73, y, str(venta['id']))
                 c.drawString(130, y, venta['fecha_sistema'])
-                c.drawRightString(310, y, '{:20,.2f}'.format(venta['sub_total']))
-                c.drawRightString(420, y, '{:20,.2f}'.format(venta['impuesto']))
-                c.drawRightString(520, y, '{:20,.2f}'.format(venta['total']))
+                c.drawRightString(310, y, '{:20,.2f}'.format(float(venta['sub_total'])))
+                c.drawRightString(420, y, '{:20,.2f}'.format(float(venta['impuesto'])))
+                c.drawRightString(520, y, '{:20,.2f}'.format(float(venta['total'])))
                 total += venta['total']
                 items = model_venta_detalle.get_records(venta_id=venta['id'])
                 if len(items) > 0:
@@ -56,12 +56,11 @@ class Ventas:
                     actual = 0
                     for item in items:
                         y -= 20
-                        producto = model_producto.get_record(item['producto_id'])
-                        if producto:
-                            c.drawString(113, y, producto['nombre'])
-                        c.drawRightString(280, y, '{:20,.2f}'.format(item['producto_precio']))
+                        nombre = item['nombre'] if len(item['nombre']) <= 20 else item['nombre'][:19]
+                        c.drawRightString(213, y, nombre)
+                        c.drawRightString(280, y, '{:20,.2f}'.format(float(item['producto_precio'])))
                         c.drawRightString(353, y, str(item['producto_cantidad']))
-                        c.drawRightString(453, y, '{:20,.2f}'.format(item['subtotal']))
+                        c.drawRightString(453, y, '{:20,.2f}'.format(float(item['subtotal'])))
                     y -= 20
                     c.line(10, y, 600, y)
                     y -= 20
@@ -77,7 +76,7 @@ class Ventas:
             c.showPage()
             c.save()
             reader = get_pdf_reader()
-            if reader:
+            if reader and reader['valor'] != '':
                 subprocess.Popen([reader['valor'], "ReporteVentas.pdf"])
     
     def __add_page_header(self, canvas, fecha_inicio, fecha_fin):

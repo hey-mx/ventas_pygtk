@@ -2,7 +2,6 @@ import sys
 import pygtk
 pygtk.require("2.0")
 import gtk
-import gtk.glade
 from utils.Form import FormBuilder
 from utils.Busqueda import BusquedaWindow
 
@@ -18,7 +17,6 @@ class ProveedoresFactory(gtk.Frame):
         self.content.reparent(self)
         self.content.show()
         self.form_builder = FormBuilder(builder, 'Proveedor')
-        self.form_builder.get_entity(1)
 
     def get_content(self):
         return self.content

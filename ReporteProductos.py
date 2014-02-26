@@ -24,13 +24,15 @@ class Productos:
         if len(productos) > 0:
             y = 490
             for producto in productos:
-                c.drawString(30, y, str(producto['id']))
-                c.drawRightString(260, y, producto['nombre'])
+                c.drawString(20, y, str(producto['id']))
+                nombre = producto['nombre'] if len(producto['nombre']) <= 20 else producto['nombre'][:19]
+                c.drawRightString(270, y, nombre)
                 proveedor = model_proveedor.get_record(producto['proveedor'])
                 if proveedor:
-                    c.drawRightString(460, y, proveedor['nombre'])
-                c.drawRightString(550, y, '{:20,.2f}'.format(producto['precio_compra']))
-                c.drawRightString(660, y, '{:20,.2f}'.format(producto['precio_venta']))
+                    prov_nombre = proveedor['nombre'] if len(proveedor['nombre']) <= 20 else proveedor['nombre'][:19]
+                    c.drawRightString(460, y, prov_nombre)
+                c.drawRightString(550, y, '{:20,.2f}'.format(float(producto['precio_compra'])))
+                c.drawRightString(660, y, '{:20,.2f}'.format(float(producto['precio_venta'])))
                 c.drawRightString(760, y, str(producto['existencia']))
                 y -= 20
                 if y <= 80:
@@ -44,7 +46,7 @@ class Productos:
         c.showPage()
         c.save()
         reader = get_pdf_reader()
-        if reader:
+        if reader and reader['valor'] != '':
             subprocess.Popen([reader['valor'], "ReporteProductos.pdf"])
 
 

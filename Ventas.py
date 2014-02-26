@@ -2,7 +2,6 @@
 import pygtk
 pygtk.require("2.0")
 import gtk, gobject
-import gtk.glade
 from utils.Form import FormBuilder
 from utils.Busqueda import BusquedaWindow
 from utils.Database import DataModel
@@ -151,7 +150,7 @@ class VentasFactory(gtk.Frame):
                         if producto:
                             self.venta_detalle_model.create_record({'venta_id': str(id_venta), 'producto_id': row[0],
                                 'producto_precio': row[3], 'producto_cantidad': row[2],
-                                'subtotal': row[4]})
+                                'subtotal': row[4], 'nombre': row[1]})
                             self.producto_model.update_record({'existencia': str(int(producto['existencia']) - int(row[2]))}, 
                                 int(row[0]))
                 self._clear_producto(True)
@@ -239,17 +238,18 @@ class VentasFactory(gtk.Frame):
     def _load_venta(self, value):
         venta = self.venta_model.get_record(int(value))
         if venta:
-            self.form_builder.load_widget_value('subtotal_label', '{:20,.2f}'.format(venta['sub_total']))
-            self.form_builder.load_widget_value('iva_label', '{:20,.2f}'.format(venta['impuesto']))
-            self.form_builder.load_widget_value('total_label', '{:20,.2f}'.format(venta['total']))
+            self.__id_venta = venta['id']
+            self.form_builder.load_widget_value('subtotal_label', '{:20,.2f}'.format(float(venta['sub_total'])))
+            self.form_builder.load_widget_value('iva_label', '{:20,.2f}'.format(float(venta['impuesto'])))
+            self.form_builder.load_widget_value('total_label', '{:20,.2f}'.format(float(venta['total'])))
             gobject.source_remove(self.idevent)
             self.form_builder.load_widget_value('fecha_hora_label', self._parse_fecha(str(venta['fecha_hora'])))
             items = self.venta_detalle_model.get_records(venta_id=venta['id'])
             if len(items) > 0:
                 for item in items:
                     self.ventas_grid_model.append([str(item['id']), item['nombre'],
-                        str(item['producto_cantida']), str(round(precio_producto, 2)), 
-                            str(round(cantidad_producto * precio_producto, 2))])
+                        str(item['producto_cantidad']), str(round(item['producto_precio'], 2)), 
+                            str(round(item['producto_cantidad'] * item['producto_precio'], 2))])
         else:
             self._show_error_message('La venta seleccionada no existe')
 

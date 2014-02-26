@@ -3,7 +3,6 @@ import sys
 import pygtk
 pygtk.require("2.0")
 import gtk
-import gtk.glade
 from Proveedores import ProveedoresFactory
 from Productos import ProductosFactory
 from Ventas import VentasFactory
