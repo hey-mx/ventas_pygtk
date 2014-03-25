@@ -216,7 +216,7 @@
             <property name="invisible_char">●</property>
             <property name="primary_icon_activatable">False</property>
             <property name="secondary_icon_activatable">False</property>
-            <signal name="focus-out-event" handler="on_id_producto_changed" swapped="no"/>
+            <signal name="key-release-event" handler="id_producto_key_release_event_cb" swapped="no"/>
           </object>
           <packing>
             <property name="x">79</property>

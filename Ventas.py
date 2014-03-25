@@ -113,13 +113,13 @@ class VentasFactory(gtk.Frame):
     def _load_producto(self, value):
         self.form_builder.load_widget_value('id_producto', value)
 
-    def on_id_producto_changed(self, widget, event):
-        producto_id = '0'
-        producto_id = widget.get_text()
-        producto = self.producto_model.get_record(producto_id)
-        self._clear_producto()
-        if producto:
-            self._load_producto_information(producto)
+    def id_producto_key_release_event_cb(self, widget, ev, data=None):
+        if ev.keyval == 65293:
+            producto_id = widget.get_text()
+            producto = self.producto_model.get_record(producto_id)
+            self._clear_producto()
+            if producto:
+                self._load_producto_information(producto)
 
     def on_nuevo_button_clicked(self, widget):
         self.__id_venta = 0
