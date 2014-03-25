@@ -49,9 +49,9 @@ class DataModel:
     def get_record(self, record_id):
         self.db.connection.row_factory = sqlite3.Row
         cursor = self.db.cursor()
-        query = "SELECT %s FROM %s WHERE id = %d"\
-            % (','.join(self.__columns), self.table_name, record_id)
-        cursor.execute(query)
+        query = "SELECT %s FROM %s WHERE id = ?"\
+            % (','.join(self.__columns), self.table_name)
+        cursor.execute(query, [record_id])
         row = cursor.fetchone()
         cursor.close()
         return row
@@ -91,8 +91,8 @@ class DataModel:
 
     def delete_record(self, record_id):
         cursor = self.db.cursor()
-        cursor.execute("DELETE FROM %s WHERE id = %d"\
-            % (self.table_name, record_id))
+        query = "DELETE FROM %s WHERE id = ?" % self.table_name
+        cursor.execute(query, [record_id])
         cursor.close()
 
     def create_record(self, fields_and_values):
@@ -112,14 +112,16 @@ class DataModel:
         if len(fields_and_values) > 0:
             fields = [x for x in fields_and_values.keys()]
             values = [y.decode('utf-8') for y in fields_and_values.values()]
-            query = "UPDATE %s SET %s WHERE id = %d" % (self.table_name, ' = ?, '.join(fields) + ' = ?', 
-                record_id)
+            query = "UPDATE %s SET %s WHERE id = ?" % (self.table_name, ' = ?, '.join(fields) + ' = ?')
+            print query
             if upsert:
                 record = self.get_record(record_id)
                 if not record:
                     self.create_record(fields_and_values)
                     return
             cursor = self.db.cursor()
+            values.append(record_id)
+            print values
             cursor.execute(query, values)
             self.db.commit()
             cursor.close()

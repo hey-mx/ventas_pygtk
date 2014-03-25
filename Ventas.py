@@ -50,9 +50,7 @@ class VentasFactory(gtk.Frame):
             self._show_error_message('Esta visualizando el detalle de una venta realizada, de click en el boton nuevo para realizar una nueva venta')
             return
         id_producto = self.form_builder.get_widget_value('id_producto')
-        try:
-            id_producto = int(id_producto)
-        except:
+        if id_producto == '' or id_producto == '0':
             self._show_error_message('Escriba un código de producto valido')
             return
         nombre_producto = self.form_builder.get_widget_value('nombre_producto')
@@ -76,13 +74,13 @@ class VentasFactory(gtk.Frame):
             self._show_error_message('Escriba una cantidad valida')
             return
         append = True
-        producto = self.producto_model.get_record(int(id_producto))
+        producto = self.producto_model.get_record(id_producto)
         if producto:
             if producto['existencia'] < cantidad_producto:
                 self._show_error_message('No existe la cantidad necesaria del producto en inventario')
                 return
             for row in self.ventas_grid_model:
-                if int(row[0]) == id_producto:
+                if row[0] == id_producto:
                     row[2] = int(row[2]) + cantidad_producto
                     row[4] = str(round(int(row[2]) * Decimal(row[3]), 2))
                     append = False
@@ -115,13 +113,10 @@ class VentasFactory(gtk.Frame):
     def _load_producto(self, value):
         self.form_builder.load_widget_value('id_producto', value)
 
-    def on_id_producto_changed(self, widget):
-        producto_id = 0
-        try:
-            producto_id = int(widget.get_text())
-        except:
-            pass
-        producto = self.producto_model.get_record(int(producto_id))
+    def on_id_producto_changed(self, widget, event):
+        producto_id = '0'
+        producto_id = widget.get_text()
+        producto = self.producto_model.get_record(producto_id)
         self._clear_producto()
         if producto:
             self._load_producto_information(producto)
@@ -146,13 +141,13 @@ class VentasFactory(gtk.Frame):
                     'impuesto': impuesto, 'total': total, 'fecha_sistema': fecha_sistema})
                 if id_venta:
                     for row in self.ventas_grid_model:
-                        producto = self.producto_model.get_record(int(row[0]))
+                        producto = self.producto_model.get_record(row[0])
                         if producto:
                             self.venta_detalle_model.create_record({'venta_id': str(id_venta), 'producto_id': row[0],
                                 'producto_precio': row[3], 'producto_cantidad': row[2],
                                 'subtotal': row[4], 'nombre': row[1]})
                             self.producto_model.update_record({'existencia': str(int(producto['existencia']) - int(row[2]))}, 
-                                int(row[0]))
+                                row[0])
                 self._clear_producto(True)
                 self._clear_venta()
                 self.ventas_grid_model.clear()

@@ -48,7 +48,7 @@ class ProductosFactory(gtk.Frame):
         del self.main.pages[page]
 
     def _load_entity_from_search(self, value):
-        self.form_builder.get_entity(int(value))
+        self.form_builder.get_entity(value)
 
     def on_buscar_button_clicked(self, widget):
         busqueda = BusquedaWindow('Producto', self._load_entity_from_search,

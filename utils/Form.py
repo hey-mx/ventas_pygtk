@@ -22,9 +22,9 @@ class FormBuilder:
         id = self.__get_id()
         values = {}
         for field in self.__fields:
-            if field != 'id' or custom_id == True:
+            if field != 'id' or (field == 'id' and custom_id == True):
                 values[field] = self.get_widget_value(field)
-        if id == 0:
+        if id == 0 or id == '':
             self.model.create_record(values)
         else:
             self.model.update_record(values, id, upsert)
@@ -32,7 +32,7 @@ class FormBuilder:
 
     def delete_entity(self):
         id = self.__get_id()
-        if id > 0:
+        if id > 0 or id != '':
             dialog = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT,
                 gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, "¿Desea eliminar el registro actual?")
             response = dialog.run()
@@ -85,8 +85,5 @@ class FormBuilder:
         id = 0
         widget = self.builder.get_object('id')
         if isinstance(widget, gtk.Label) or isinstance(widget, gtk.Entry):
-            try:
-                id = int(widget.get_text())
-            except:
-                pass
+            id = widget.get_text()
         return id
