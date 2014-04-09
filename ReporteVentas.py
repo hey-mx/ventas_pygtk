@@ -39,15 +39,17 @@ class Ventas:
             y = 650
             total = 0.00
             for venta in ventas:
+                total_string = str(venta['total'])
                 c.drawString(73, y, str(venta['id']))
                 c.drawString(130, y, venta['fecha_sistema'])
                 c.drawRightString(310, y, '{:20,.2f}'.format(float(venta['sub_total'])))
                 c.drawRightString(420, y, '{:20,.2f}'.format(float(venta['impuesto'])))
-                c.drawRightString(520, y, '{:20,.2f}'.format(float(venta['total'])))
-                total += venta['total']
+                c.drawRightString(520, y, '{:20,.2f}'.format(float(total_string)))
+                total += float(total_string)
                 items = model_venta_detalle.get_records(venta_id=venta['id'])
+                y -= 30
                 if len(items) > 0:
-                    y -= 30
+                    
                     c.drawString(133, y, 'Producto')
                     c.drawString(253, y, 'Precio')
                     c.drawString(313, y, 'Cantidad')

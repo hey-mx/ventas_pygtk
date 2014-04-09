@@ -5,6 +5,7 @@ import gtk, gobject
 from utils.Form import FormBuilder
 from utils.Busqueda import BusquedaWindow
 from utils.Database import DataModel
+from ImprimirTicket import Ticket
 from decimal import *
 import datetime
 
@@ -129,10 +130,10 @@ class VentasFactory(gtk.Frame):
         self._ensure_ventas_grid()
         self._update_fecha_hora()
 
-    def on_guardar_button_clicked(self, widget):
+    def on_guardar_button_clicked(self, widget, upsert=False):
         total = self.form_builder.get_widget_value('total_label').replace(',', '')
         if self.__id_venta == 0:
-            if self._show_save_continue():
+            if self._show_save_continue() != -9:
                 fecha_hora = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
                 fecha_sistema = datetime.datetime.now().strftime("%Y/%m/%d")
                 sub_total = self.form_builder.get_widget_value('subtotal_label').replace(',', '')
@@ -143,16 +144,21 @@ class VentasFactory(gtk.Frame):
                     for row in self.ventas_grid_model:
                         producto = self.producto_model.get_record(row[0])
                         if producto:
-                            self.venta_detalle_model.create_record({'venta_id': str(id_venta), 'producto_id': row[0],
-                                'producto_precio': row[3], 'producto_cantidad': row[2],
-                                'subtotal': row[4], 'nombre': row[1]})
-                            self.producto_model.update_record({'existencia': str(int(producto['existencia']) - int(row[2]))}, 
-                                row[0])
-                self._clear_producto(True)
-                self._clear_venta()
-                self.ventas_grid_model.clear()
-                self._ensure_ventas_grid()
-                self.idevent = gobject.timeout_add(1000, self._update_fecha_hora)
+                            self.venta_detalle_model.create_record({'venta_id': str(id_venta), 'producto_id': row[0].strip(),
+                                'producto_precio': row[3].strip(), 'producto_cantidad': row[2].strip(),
+                                'subtotal': row[4].strip(), 'nombre': row[1].strip()})
+                            self.producto_model.update_record({'existencia': str(int(producto['existencia']) - int(row[2].strip()))}, 
+                                row[0].strip())
+                if not upsert:
+                    self._clear_producto(True)
+                    self._clear_venta()
+                    self.ventas_grid_model.clear()
+                    self._ensure_ventas_grid()
+                    self.idevent = gobject.timeout_add(1000, self._update_fecha_hora)
+                else:
+                    return id_venta
+            else:
+                return 0
         else:
             self._show_error_message('Esta visualizando el detalle de una venta realizada, de click en el boton nuevo para realizar una nueva venta')
 
@@ -160,6 +166,13 @@ class VentasFactory(gtk.Frame):
         page = self.parent.get_current_page()
         self.parent.remove_page(page)
         del self.main.pages[page]
+
+    def on_imprimir_ticket_button_clicked(self, widget):
+        if self.__id_venta == 0:
+            self.__id_venta = self.on_guardar_button_clicked(widget, True)
+        ticket = Ticket(self.__id_venta)
+        if not ticket.imprimir():
+            self._show_error_message('No se pudo imprimir ticket, asegurese de que la venta exista')
 
     def _calcular_totales(self):
         subtotal = 0.00
@@ -233,6 +246,11 @@ class VentasFactory(gtk.Frame):
     def _load_venta(self, value):
         venta = self.venta_model.get_record(int(value))
         if venta:
+            self._clear_producto(True)
+            self._clear_venta()
+            self.ventas_grid_model.clear()
+            self._ensure_ventas_grid()
+
             self.__id_venta = venta['id']
             self.form_builder.load_widget_value('subtotal_label', '{:20,.2f}'.format(float(venta['sub_total'])))
             self.form_builder.load_widget_value('iva_label', '{:20,.2f}'.format(float(venta['impuesto'])))
@@ -242,9 +260,9 @@ class VentasFactory(gtk.Frame):
             items = self.venta_detalle_model.get_records(venta_id=venta['id'])
             if len(items) > 0:
                 for item in items:
-                    self.ventas_grid_model.append([str(item['id']), item['nombre'],
-                        str(item['producto_cantidad']), str(round(item['producto_precio'], 2)), 
-                            str(round(item['producto_cantidad'] * item['producto_precio'], 2))])
+                    self.ventas_grid_model.append([str(item['id']), item['nombre'].strip(),
+                        str(item['producto_cantidad']).strip(), str(round(item['producto_precio'], 2)).strip(), 
+                            str(round(item['producto_cantidad'] * item['producto_precio'], 2)).strip()])
         else:
             self._show_error_message('La venta seleccionada no existe')
 

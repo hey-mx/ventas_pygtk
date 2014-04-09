@@ -113,7 +113,6 @@ class DataModel:
             fields = [x for x in fields_and_values.keys()]
             values = [y.decode('utf-8') for y in fields_and_values.values()]
             query = "UPDATE %s SET %s WHERE id = ?" % (self.table_name, ' = ?, '.join(fields) + ' = ?')
-            print query
             if upsert:
                 record = self.get_record(record_id)
                 if not record:
@@ -121,7 +120,6 @@ class DataModel:
                     return
             cursor = self.db.cursor()
             values.append(record_id)
-            print values
             cursor.execute(query, values)
             self.db.commit()
             cursor.close()
