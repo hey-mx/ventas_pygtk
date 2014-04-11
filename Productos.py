@@ -37,7 +37,24 @@ class ProductosFactory(gtk.Frame):
         self.form_builder.clear_form()
 
     def on_guardar_button_clicked(self, widget):
-        self.form_builder.save_entity(upsert=True, custom_id=True)
+        error = ''
+        try:
+            precio_compra = float(self.form_builder.get_widget_value('precio_compra'))
+        except:
+            error = 'El precio de compra debe ser un valor unicamente numerico'
+        try:
+            precio_venta = float(self.form_builder.get_widget_value('precio_venta'))
+        except:
+            error = 'El precio de venta debe ser un valor unicamente numerico'
+        try:
+            existencia = int(self.form_builder.get_widget_value('existencia'))
+        except:
+            error = 'La existencia debe ser un valor unicamente numerico'
+
+        if error == '':
+            self.form_builder.save_entity(upsert=True, custom_id=True)
+        else:
+            self._show_error_message(error)
 
     def on_eliminar_button_clicked(self, widget):
         self.form_builder.delete_entity()
@@ -54,3 +71,9 @@ class ProductosFactory(gtk.Frame):
         busqueda = BusquedaWindow('Producto', self._load_entity_from_search,
             search_fields={'id': 'match', 'nombre': 'like'}, 
             display_fields = ['id', 'nombre', 'precio_compra', 'precio_venta', 'existencia'])
+
+    def _show_error_message(self, message):
+        dialog = gtk.MessageDialog(self.parent.parent.parent, gtk.DIALOG_DESTROY_WITH_PARENT,
+            gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message)
+        dialog.run()
+        dialog.destroy()

@@ -31,9 +31,12 @@ class Productos:
                 if proveedor:
                     prov_nombre = proveedor['nombre'] if len(proveedor['nombre']) <= 20 else proveedor['nombre'][:19]
                     c.drawRightString(460, y, prov_nombre)
-                c.drawRightString(550, y, '{:20,.2f}'.format(float(producto['precio_compra'])))
-                c.drawRightString(660, y, '{:20,.2f}'.format(float(producto['precio_venta'])))
-                c.drawRightString(760, y, str(producto['existencia']))
+                try:
+                    c.drawRightString(550, y, '{:20,.2f}'.format(float(producto['precio_compra'])))
+                    c.drawRightString(660, y, '{:20,.2f}'.format(float(producto['precio_venta'])))
+                    c.drawRightString(760, y, str(producto['existencia']))
+                except:
+                    pass
                 y -= 20
                 if y <= 80:
                     self.__add_page_footer(c)

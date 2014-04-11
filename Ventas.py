@@ -8,6 +8,7 @@ from utils.Database import DataModel
 from ImprimirTicket import Ticket
 from decimal import *
 import datetime
+import re
 
 class VentasFactory(gtk.Frame):
     
@@ -147,7 +148,8 @@ class VentasFactory(gtk.Frame):
                             self.venta_detalle_model.create_record({'venta_id': str(id_venta), 'producto_id': row[0].strip(),
                                 'producto_precio': row[3].strip(), 'producto_cantidad': row[2].strip(),
                                 'subtotal': row[4].strip(), 'nombre': row[1].strip()})
-                            self.producto_model.update_record({'existencia': str(int(producto['existencia']) - int(row[2].strip()))}, 
+                            self.producto_model.update_record({
+                                    'existencia': str(self.normalizar_existencia(producto['existencia']) - int(row[2].strip()))}, 
                                 row[0].strip())
                 if not upsert:
                     self._clear_producto(True)
@@ -274,3 +276,17 @@ class VentasFactory(gtk.Frame):
         minutes = fecha[10:12]
         seconds = fecha[12:14]
         return "%s/%s/%s %s:%s:%s" % (year, month, day, hour, minutes, seconds)
+
+    def normalizar_existencia(self, existencia):
+        try:
+            existencia = int(existencia)
+        except:
+            if isinstance(existencia, str):
+                number = re.match(r"\d", existencia)
+                if number:
+                    existencia = number.group(0)
+                else:
+                    existencia = 0
+            else:
+                existencia = 0
+        return existencia
