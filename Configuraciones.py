@@ -29,9 +29,9 @@ class ConfiguracionesFactory(gtk.Frame):
         self.margen_izquierdo =  get_margen('margen_izquierdo')
         self.margen_superior = get_margen('margen_superior')
         if self.margen_superior is not None:
-            self.entry_margen_superior = self.margen_superior
+            self.entry_margen_superior.set_text(str(self.margen_superior['valor']).strip())
         if self.margen_izquierdo is not None:
-            self.entry_margen_izquierdo = self.margen_izquierdo
+            self.entry_margen_izquierdo.set_text(str(self.margen_izquierdo['valor']).strip())
 
     def on_aceptar_button_clicked(self, widget):
         pdf = self.entry.get_text()
@@ -40,11 +40,11 @@ class ConfiguracionesFactory(gtk.Frame):
         else:
             self.config_model.update_record({'parametro': 'pdf_reader', 'valor': pdf}, self.__record_id)
 
-        try:
-            float(self.entry_margen_superior.get_text())
-        except:
+        #try:
+        float(self.entry_margen_superior.get_text())
+        """except:
             self._show_error_message('El valor para el margen superior debe de ser numerico')
-            return
+            return"""
         if self.margen_superior is None:
             self.config_model.create_record({'parametro': 'margen_superior', 
                     'valor': self.entry_margen_superior.get_text()})

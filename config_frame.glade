@@ -20,7 +20,7 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">133</property>
+            <property name="x">136</property>
             <property name="y">10</property>
           </packing>
         </child>
@@ -88,94 +88,65 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="frame1">
-            <property name="width_request">339</property>
-            <property name="height_request">121</property>
+          <object class="GtkLabel" id="label4">
+            <property name="width_request">117</property>
+            <property name="height_request">23</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkAlignment" id="alignment1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="left_padding">12</property>
-                <child>
-                  <object class="GtkFixed" id="fixed1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLabel" id="label4">
-                        <property name="width_request">109</property>
-                        <property name="height_request">27</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Margen Superior:&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
-                      </object>
-                      <packing>
-                        <property name="x">-1</property>
-                        <property name="y">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="margen_superior">
-                        <property name="width_request">100</property>
-                        <property name="height_request">23</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="invisible_char">●</property>
-                        <property name="text" translatable="yes">692.0</property>
-                      </object>
-                      <packing>
-                        <property name="x">127</property>
-                        <property name="y">7</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label5">
-                        <property name="width_request">100</property>
-                        <property name="height_request">27</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Margen Izquierdo:&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
-                      </object>
-                      <packing>
-                        <property name="x">-1</property>
-                        <property name="y">38</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="margen_izquierdo">
-                        <property name="width_request">100</property>
-                        <property name="height_request">23</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="invisible_char">●</property>
-                        <property name="text" translatable="yes">3.92</property>
-                      </object>
-                      <packing>
-                        <property name="x">127</property>
-                        <property name="y">38</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child type="label">
-              <object class="GtkLabel" id="label3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Margenes Ticket&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
-              </object>
-            </child>
+            <property name="label" translatable="yes">&lt;b&gt;Margen Superior:&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
           </object>
           <packing>
-            <property name="x">11</property>
-            <property name="y">169</property>
+            <property name="x">5</property>
+            <property name="y">155</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label5">
+            <property name="width_request">117</property>
+            <property name="height_request">23</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Margen Izquierdo:&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="x">3</property>
+            <property name="y">185</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="margen_superior">
+            <property name="width_request">100</property>
+            <property name="height_request">23</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">●</property>
+            <property name="text" translatable="yes">692.0</property>
+            <property name="invisible_char_set">True</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+          </object>
+          <packing>
+            <property name="x">144</property>
+            <property name="y">155</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="margen_izquierdo">
+            <property name="width_request">100</property>
+            <property name="height_request">23</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">●</property>
+            <property name="text" translatable="yes">3.92</property>
+            <property name="invisible_char_set">True</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+          </object>
+          <packing>
+            <property name="x">144</property>
+            <property name="y">185</property>
           </packing>
         </child>
       </object>
