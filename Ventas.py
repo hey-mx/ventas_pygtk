@@ -134,7 +134,7 @@ class VentasFactory(gtk.Frame):
     def on_guardar_button_clicked(self, widget, upsert=False):
         total = self.form_builder.get_widget_value('total_label').replace(',', '').strip()
         cambio = 0
-        pago_recibido = self.form_builder.get_widget_value('pago_recibido')
+        pago_recibido = self.form_builder.get_widget_value('pago_recibido').replace(',', '').strip()
         try:
             pago_recibido = float(pago_recibido)
             total_numero = float(total)
