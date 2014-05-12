@@ -24,27 +24,31 @@ class Ventas:
             fecha_fin[2])
         fecha_inicio_param = fecha_inicio.strftime("%Y%m%d000000")
         fecha_fin_param = fecha_fin.strftime("%Y%m%d235959")
-        query = 'SELECT id, fecha_sistema, sub_total, impuesto, total FROM Venta ' +\
+        query = 'SELECT id, fecha_sistema, sub_total, impuesto, total, pago_recibido, cambio FROM Venta ' +\
             'WHERE fecha_hora >= ? AND fecha_hora <= ?'
         ventas = model_venta.get_records_from_query(query, [fecha_inicio_param, 
             fecha_fin_param])
         c = canvas.Canvas('ReporteVentas.pdf', pagesize=letter)
         if len(ventas) > 0:
             self.__add_page_header(c, fecha_inicio, fecha_fin)
-            c.drawString(60, 680, 'Id Venta')
-            c.drawString(140, 680, 'Fecha')
-            c.drawString(260, 680, 'Sub Total')
-            c.drawString(390, 680, 'IVA')
-            c.drawString(490, 680, 'Total')
+            c.drawString(30, 680, 'Id Venta')
+            c.drawString(90, 680, 'Fecha')
+            c.drawString(180, 680, 'Sub Total')
+            c.drawString(310, 680, 'IVA')
+            c.drawString(390, 680, 'Total')
+            c.drawString(460, 680, 'Pagado')
+            c.drawString(520, 680, 'Cambio')
             y = 650
             total = 0.00
             for venta in ventas:
                 total_string = str(venta['total'])
-                c.drawString(73, y, str(venta['id']))
-                c.drawString(130, y, venta['fecha_sistema'])
-                c.drawRightString(310, y, '{:20,.2f}'.format(float(venta['sub_total'])))
-                c.drawRightString(420, y, '{:20,.2f}'.format(float(venta['impuesto'])))
-                c.drawRightString(520, y, '{:20,.2f}'.format(float(total_string)))
+                c.drawString(43, y, str(venta['id']))
+                c.drawString(80, y, venta['fecha_sistema'])
+                c.drawRightString(230, y, '{:20,.2f}'.format(float(venta['sub_total'])))
+                c.drawRightString(340, y, '{:20,.2f}'.format(float(venta['impuesto'])))
+                c.drawRightString(420, y, '{:20,.2f}'.format(float(total_string)))
+                c.drawRightString(500, y, '{:20,.2f}'.format(float(venta['pago_recibido'])))
+                c.drawRightString(560, y, '{:20,.2f}'.format(float(venta['cambio'])))
                 total += float(total_string)
                 items = model_venta_detalle.get_records(venta_id=venta['id'])
                 y -= 30
