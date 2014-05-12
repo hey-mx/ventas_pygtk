@@ -95,6 +95,11 @@ class DataModel:
         cursor.execute(query, [record_id])
         cursor.close()
 
+    def execute(self, query):
+        cursor = self.db.cursor()
+        cursor.execute(query)
+        cursor.close()
+
     def create_record(self, fields_and_values):
         if len(fields_and_values) > 0:
             fields = [x for x in fields_and_values.keys()]

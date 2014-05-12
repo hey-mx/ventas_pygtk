@@ -9,6 +9,7 @@ from Ventas import VentasFactory
 from ReporteVentas import Ventas
 from ReporteProductos import Productos
 from Configuraciones import ConfiguracionesFactory
+from utils.Database import DataModel
 
 class MainWindowGtk:
     pages = []
@@ -61,5 +62,13 @@ class MainWindowGtk:
         self.reportes_button.show()
 
 if __name__ == "__main__":
+    ventasModel = DataModel('VENTA')
+    columns = ventasModel.get_colums();
+    if 'pago_recibido' not in columns:
+        query = 'ALTER TABLE VENTA ADD COLUMN pago_recibido REAL default 0';
+        ventasModel.execute(query)
+    if 'cambio' not in columns:
+        query = 'ALTER TABLE VENTA ADD COLUMN cambio REAL default 0';
+        ventasModel.execute(query)
     hwg = MainWindowGtk()
     gtk.main()

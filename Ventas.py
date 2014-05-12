@@ -132,7 +132,19 @@ class VentasFactory(gtk.Frame):
         self._update_fecha_hora()
 
     def on_guardar_button_clicked(self, widget, upsert=False):
-        total = self.form_builder.get_widget_value('total_label').replace(',', '')
+        total = self.form_builder.get_widget_value('total_label').replace(',', '').strip()
+        cambio = 0
+        pago_recibido = self.form_builder.get_widget_value('pago_recibido')
+        try:
+            pago_recibido = float(pago_recibido)
+            total_numero = float(total)
+            if pago_recibido <= 0 or pago_recibido < total_numero:
+                raise NameError('Cantidad no valida')
+            else:
+                cambio = pago_recibido - total_numero
+        except:
+            self._show_error_message('La cantidad recibida de pago no es valida')
+            return
         if self.__id_venta == 0:
             if self._show_save_continue() != -9:
                 fecha_hora = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -140,7 +152,9 @@ class VentasFactory(gtk.Frame):
                 sub_total = self.form_builder.get_widget_value('subtotal_label').replace(',', '')
                 impuesto = self.form_builder.get_widget_value('iva_label').replace(',', '')
                 id_venta = self.venta_model.create_record({'fecha_hora': fecha_hora, 'sub_total': sub_total,
-                    'impuesto': impuesto, 'total': total, 'fecha_sistema': fecha_sistema})
+                    'impuesto': impuesto, 'total': total, 'fecha_sistema': fecha_sistema, 
+                    'pago_recibido': str(pago_recibido).strip(), 
+                    'cambio': str(cambio).strip()})
                 if id_venta:
                     for row in self.ventas_grid_model:
                         producto = self.producto_model.get_record(row[0])
@@ -151,6 +165,7 @@ class VentasFactory(gtk.Frame):
                             self.producto_model.update_record({
                                     'existencia': str(self.normalizar_existencia(producto['existencia']) - int(row[2].strip()))}, 
                                 row[0].strip())
+                self._show_error_message('El cambio es de %s' % '{:20,.2f}'.format(float(cambio)))
                 if not upsert:
                     self._clear_producto(True)
                     self._clear_venta()
@@ -226,6 +241,7 @@ class VentasFactory(gtk.Frame):
         self.form_builder.load_widget_value('subtotal_label', '0.00')
         self.form_builder.load_widget_value('total_label', '0.00')
         self.form_builder.load_widget_value('iva_label', '0.00')
+        self.form_builder.load_widget_value('pago_recibido', '0.00')
 
     def _show_error_message(self, message):
         dialog = gtk.MessageDialog(self.parent.parent.parent, gtk.DIALOG_DESTROY_WITH_PARENT,
@@ -257,6 +273,7 @@ class VentasFactory(gtk.Frame):
             self.form_builder.load_widget_value('subtotal_label', '{:20,.2f}'.format(float(venta['sub_total'])))
             self.form_builder.load_widget_value('iva_label', '{:20,.2f}'.format(float(venta['impuesto'])))
             self.form_builder.load_widget_value('total_label', '{:20,.2f}'.format(float(venta['total'])))
+            self.form_builder.load_widget_value('pago_recibido', '{:20,.2f}'.format(float(venta['pago_recibido'])))
             gobject.source_remove(self.idevent)
             self.form_builder.load_widget_value('fecha_hora_label', self._parse_fecha(str(venta['fecha_hora'])))
             items = self.venta_detalle_model.get_records(venta_id=venta['id'])
